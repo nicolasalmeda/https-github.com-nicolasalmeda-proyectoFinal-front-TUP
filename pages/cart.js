@@ -99,11 +99,14 @@ export default function CartPage(){
   },[cartProducts])
 
   useEffect(() => {
-    if(window.location.href.includes('success')){
+    if (typeof window === 'undefined') {
+      return;
+    }
+    if (window?.location.href.includes('success')) {
       setIsSuccess(true);
       clearCart();
     }
-  },[])
+  }, [clearCart]);
 
   function moreOfThisProduct(id){
     addProduct(id)
