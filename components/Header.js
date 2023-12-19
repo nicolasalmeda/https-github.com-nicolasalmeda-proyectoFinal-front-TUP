@@ -4,6 +4,8 @@ import Center from "@/components/Center";
 import { useContext,useState } from "react";
 import {CartContext} from "@/components/CartContext";
 import BarsIcon from "./icons/Bars";
+import { useSession, signIn, signOut } from "next-auth/react"
+import Button from "./Button";
 
 const StyledHeader = styled.header`
 background-color: #222;
@@ -65,20 +67,57 @@ const NavButton = styled.button`
   }
 `;
 
+const UserContainer = styled.div`
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  color: #fff;
+  margin-bottom:  0;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 10px;
+    align-items: center;
+  }
+`;
+
+const ImgUser = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+`
+
 export default function Header () {
-  const {cartProducts} = useContext(CartContext)
+  const { data: session } = useSession()
+  const {cartProducts, clearCart} = useContext(CartContext)
   const [mobileNavActive,setMobileNavActive] = useState(false);
+
+  const handleSignOutAndClearCart = async () => {
+    await clearCart();
+    await signOut();
+  }
   return(
     <StyledHeader>
       <Center>
         <Wrapper>
-          <Logo href="/">Ecommerce</Logo>
+          <Logo href="/">EcoTech</Logo>
           <StyledNav mobileNavActive={mobileNavActive}>
             <NavLink href={'/'}>Inicio</NavLink>
             <NavLink href={'/products'}>Productos</NavLink>
             <NavLink href={'/categories'}>Categorías</NavLink> 
             <NavLink href={'/account'}>Cuenta</NavLink>
-            <NavLink href={'/cart'}>Carrito ({cartProducts.length})</NavLink>
+            {session ? (
+              <>
+                <NavLink href={'/cart'}>Carrito ({cartProducts.length})</NavLink>
+                <Logo href={'#'}>
+                  <UserContainer>
+                    <ImgUser src={session.user.image} alt="" className="w-4 h-4" />
+                    <span className="py-1 px-2">{session.user.name}</span>
+                  </UserContainer>
+                </Logo>
+              </>
+            ) : (
+              <NavLink href={'/cart'}>Carrito ({cartProducts.length})</NavLink>
+            )}
+            <Button outline={1} white={1} onClick={() => session ? handleSignOutAndClearCart() : signIn()}> {session ? 'Salir' : 'Ingresar'}</Button>
           </StyledNav>
           <NavButton onClick={() => setMobileNavActive(prev => !prev)}>
             <BarsIcon />

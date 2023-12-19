@@ -4,6 +4,7 @@ import ProductsGrid from "@/components/ProductsGrid";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import Title from "@/components/Title";
+import Footer from "@/components/Footer";
 
 
 
@@ -15,6 +16,7 @@ export default function ProductsPage({products}){
     <Title>Productos</Title>
     <ProductsGrid products={products} />
     </Center>
+    <Footer/>
     </>
   )
 }

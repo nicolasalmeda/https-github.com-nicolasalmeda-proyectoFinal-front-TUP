@@ -7,10 +7,13 @@ import { CartContext } from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
+import { useSession } from 'next-auth/react';
+import Footer from "@/components/Footer";
 
 const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  min-height: 70vh;
   @media screen and (min-width: 768px) {
     grid-template-columns: 1.2fr .8fr;
   }
@@ -78,9 +81,10 @@ const CityHolder = styled.div`
 
 export default function CartPage(){
   const {cartProducts, addProduct, removeProduct,clearCart} = useContext(CartContext)
+  const { data: session } = useSession();
   const [products, setProducts] = useState([])
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [name, setName] = useState(session?.user?.name.toString() || '')
+  const [email, setEmail] = useState(session?.user?.email.toString() || '')
   const [city, setCity] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [streedAddress, setStreedAddress] = useState('')
@@ -212,12 +216,12 @@ export default function CartPage(){
           <Input type="text"
           name="name" 
           placeholder="Name" 
-          value={name} 
+          value={name}
           onChange={ev => setName(ev.target.value)}/>
           <Input type="text"
           name="email" 
           placeholder='Email' 
-          value={email} 
+          value={email}
           onChange={ev => setEmail(ev.target.value)}/>
           <CityHolder>
           <Input type="text"
@@ -253,6 +257,7 @@ export default function CartPage(){
     
     </ColumnsWrapper>
     </Center>
+    <Footer/>
     </>
     )
 }
