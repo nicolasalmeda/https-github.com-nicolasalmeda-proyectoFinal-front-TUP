@@ -7,7 +7,6 @@ import { CartContext } from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
-import { set } from "mongoose";
 
 const ColumnsWrapper = styled.div`
   display: grid;

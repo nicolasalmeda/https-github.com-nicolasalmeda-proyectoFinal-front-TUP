@@ -14,8 +14,11 @@ const Bg = styled.div`
 
 const Title = styled.h1`
   margin:0;
-  font-weight: normal;
-  font-size: 3rem;
+  font-weight:normal;
+  font-size:1.5rem;
+  @media screen and (min-width: 768px) {
+    font-size:3rem;
+  }
 `;
 
 const Desc = styled.p`
@@ -24,9 +27,27 @@ const Desc = styled.p`
 `;
 
 const ColumnsWrapper = styled.div`
-display: grid;
-grid-template-columns: 1.1fr .9fr;
-gap: 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  img{
+    max-width: 100%;
+    max-height: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+  div:nth-child(1) {
+    order: 2;
+  }
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 1.1fr 0.9fr;
+    div:nth-child(1) {
+      order: 0;
+    }
+    img{
+      max-width: 100%;
+    }
+  }
 `;
 
 const StyledImg = styled.img`

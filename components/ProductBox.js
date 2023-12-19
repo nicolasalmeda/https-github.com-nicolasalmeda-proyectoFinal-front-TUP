@@ -84,7 +84,7 @@ export default function ProductBox({ _id,title,description,price,images}) {
             ${price}
           </Price>
           <Button block={1} onClick={() => addProduct(_id)} primary={1}>
-            <CartIcon/>
+            Añadir Carrito
           </Button>
         </PriceRow>
       </ProductInfoBox>
